@@ -1,3 +1,6 @@
+using System.Text;
+using System.Text.RegularExpressions;
+
 namespace Task1;
 
 public class VulgarFractions
@@ -27,8 +30,27 @@ public class VulgarFractions
     private static string superscripts = "⁰¹²³⁴⁵⁶⁷⁸⁹";
     private static string subscripts = "₀₁₂₃₄₅₆₇₈₉";
 
-    string ToMixedVulgarFraction(Rational r)
+    private static string PrintToCustomAlphabet(int num, string alphabet) =>
+        Regex.Replace(num.ToString(), @"\d", (m) => alphabet[int.Parse(m.Value)].ToString());
+
+    public static string ToMixedVulgarFraction(Rational r)
     {
-        throw new NotImplementedException();
+        var sb = new StringBuilder();
+        if (r.IsZero)
+            return sb.Append("0").ToString();
+        
+        if (r.WholePart != 0)
+            sb.Append(r.WholePart);
+        if (r.IsWhole) return sb.ToString();
+
+        var proper = r.ProperPart;
+        if (vulgarFractions.TryGetValue(proper, out var value))
+            return sb.Append(value).ToString();
+
+        return sb
+            .Append(PrintToCustomAlphabet(r.Numerator, superscripts))
+            .Append('/')
+            .Append(PrintToCustomAlphabet(r.Denominator, subscripts))
+            .ToString();
     }
 }
