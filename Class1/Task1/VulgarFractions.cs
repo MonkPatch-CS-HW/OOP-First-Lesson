@@ -48,9 +48,9 @@ public class VulgarFractions
             return sb.Append(value).ToString();
 
         return sb
-            .Append(PrintToCustomAlphabet(r.Numerator, superscripts))
+            .Append(PrintToCustomAlphabet(proper.Numerator, superscripts))
             .Append('/')
-            .Append(PrintToCustomAlphabet(r.Denominator, subscripts))
+            .Append(PrintToCustomAlphabet(proper.Denominator, subscripts))
             .ToString();
     }
 }
